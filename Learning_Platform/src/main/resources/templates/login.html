@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleap.org" th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+	<div class="container mt-5 p-5">
+			<div class="row">
+					<div class="card shadow p-3 mb-5 bg-body-tertiary rounded" data-aos="fade-up"
+     data-aos-offset="300"
+     data-aos-easing="ease-in-sine">
+						<div class="card-header">
+							<p class="fs-4 text-center">Login</p>
+							<div th:if="${param.error}" class="alert alert-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</div>
+							<div th:if="${param.logout}" class="alert alert-success">Logout Successfully</div>
+							
+						</div>
+						<div class="card-body">
+							<form action="/login" method="post">
+								<div class="mb-3">
+									<label class="form-label">Email</label> <input required
+										class="form-control" name="username" type="email">
+								</div>
+								<div class="mb-3">
+									<label class="form-label">Password</label> <input required
+										class="form-control" name="password" type="password">
+								</div>
+								<button type="submit"
+									class="btn custom-link text-white col-md-12">Login</button>
+							</form>
+						</div>
+
+						<div class="card-footer text-center">
+							<a href="/forgot-password" class="text-decoration-none">Forgot Password</a><br>
+							Don't have an account ? <a href="/register" class="text-decoration-none">Create
+								one </a>
+						</div>
+					</div>
+				
+			</div>
+		</div>
+	</section>
+</body>
+</html>

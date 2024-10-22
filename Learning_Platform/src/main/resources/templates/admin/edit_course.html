@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container p-5 mt-5">
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					<div class="card card-sh">
+						<div class="card-header text-center ">
+							<p class="fs-4">Edit Course</p>
+
+							<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+
+						</div>
+						<div class="card-body">
+							<form action="/admin/updateCourse" method="post"
+								enctype="multipart/form-data">
+								<input type="hidden" name="id" th:value="${course.id}">
+								<div class="mb-3">
+									<label>Enter Title</label> <input type="text" name="title"
+										th:value="${course.title}" class="form-control">
+								</div>
+
+								<div class="mb-3">
+									<label>Enter Description</label>
+									<textarea rows="3" cols="" class="form-control"
+										name="description">[[${course.description}]]</textarea>
+								</div>
+
+								<div class="row">
+
+									<div class="mb-3 col">
+										<label>Category</label> <select class="form-control"
+											name="category">
+											<option>[[${course.category}]]</option>
+											<option th:each="ca:${categories}">[[${ca.name}]]</option>
+										</select>
+									</div>
+
+									<div class="mb-3 col">
+										<label>Enter Price</label> <input type="number" name="price"
+											th:value="${course.price}" class="form-control">
+									</div>
+
+								</div>
+
+								<div class="row">
+
+									<div class="mb-3 col">
+										<label>Discount</label> <input type="number" name="discount"
+											th:value="${course.discount}" class="form-control">
+									</div>
+
+									<div class="mb-3 col">
+										<label>Enter Stock</label> <input type="text" name="stock"
+											th:value="${course.stock}" class="form-control">
+									</div>
+								</div>
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Status</label>
+
+										<div class="form-check">
+											<input class="form-check-input" type="radio"
+												th:checked="${course.isActive==true}" value="true"
+												name="isActive" id="flexRadioDefault1"> <label
+												class="form-check-label" for="flexRadioDefault1">
+												Active </label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isActive"
+												th:checked="${course.isActive==false}" value="false"
+												id="flexRadioDefault2"> <label
+												class="form-check-label" for="flexRadioDefault2">
+												Inactive </label>
+										</div>
+									</div>
+									<div class="mb-3 col">
+										<label>Access Duration Months</label> <input type="text" name="accessDurationInMonths"
+											th:value="${course.accessDurationInMonths}" class="form-control">
+									</div>
+								</div>
+								
+
+								<div class="mb-3 col">
+									<label>Upload Image</label> <input type="file" name="file"
+										class="form-control"> <img alt=""
+										th:src="@{'/img/course_img/' + ${course.image}}"
+										height="100px" width="100px">
+								</div>
+
+								<button class="btn btn-primary col-md-12">Submit</button>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+
+			</div>
+		</div>
+	</section>
+</body>
+</html>
+</body>
+</html>

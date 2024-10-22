@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleap.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container my-5">
+			<h2 class="mb-4 text-center">Course Videos</h2>
+
+			<!-- Display message if no videos are available -->
+			<div class="alert alert-warning" th:if="${#lists.isEmpty(videos)}">
+				<p>No videos available for this course.</p>
+			</div>
+
+			<!-- Loop through available videos -->
+			<div class="row">
+				<div class="col-md-12 m-2" th:each="video : ${videos}">
+					<div class="card shadow">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${video.title}"></h5>
+							<p class="card-text" th:text="${video.description}"></p>
+							<a
+								th:href="@{'/user/loadVideo/courseId='+${courseId}+'/videoId='+${video.videoId}}"
+								class="btn custom-link text-white col-md-6 offset-md-3">Play
+								Now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+</body>
+</html>

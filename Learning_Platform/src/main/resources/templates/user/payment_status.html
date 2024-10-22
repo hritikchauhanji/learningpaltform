@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-2 mb-2">
+
+			<div class="card card-sh">
+				<div class="card-header text-center">
+					<p class="fs-4">Pending Payments</p>
+					<th:block th:if="${session.succMsg}">
+						<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+
+					<th:block th:if="${session.errorMsg}">
+						<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Purchased Id</th>
+								<th scope="col">Course</th>
+								<th scope="col">Amount</th>
+								<th scope="col">Transaction Id</th>
+								<th scope="col">Date</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p:${paymentStatus}">
+								<td>[[${p.id}]]</td>
+								<td>[[${p.course.title}]]</td>
+								<td>[[${p.course.discountPrice}]]</td>
+								<td>[[${p.transactionId}]]</td>
+								<td>[[${p.purchaseDate}]]</td>
+								<td>[[${p.paymentStatus}]]</td>
+								
+								<td><th:block th:if="${p.paymentStatus!='Cancelled'}">
+								 <a th:href="@{'/user/updatePaymentStatus?id='+${p.id}+'&st=2'}" class="btn btn-sm btn-primary">cancel</a>
+										</th:block>
+								<th:block th:unless="${p.paymentStatus!='Cancelled'}">
+								 <a href="#" class="btn btn-sm btn-primary disabled">cancel</a>
+										</th:block>
+										 <!-- <a
+									th:href="@{'/admin/deleteCourse/'+${c.id}}"
+									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
+										Delete</a></td> -->
+							</tr>
+							
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

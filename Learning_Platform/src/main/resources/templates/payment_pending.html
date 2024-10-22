@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleap.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-5 text-center mb-5">
+			<h1 class="display-4 fw-bold mb-4">Payment Pending</h1>
+			<p th:text="${message}" class="fs-4">Your payment is being verified. We will
+				notify you once it's confirmed.</p>
+			<a href="/user/payment_status" class="btn custom-link text-white mt-3">View Status</a>
+		</div>
+
+	</section>
+</body>
+</html>

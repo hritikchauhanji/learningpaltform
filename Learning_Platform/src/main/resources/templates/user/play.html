@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleap.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container my-5 ">
+			<!-- <h2 class="mb-4 text-center">Video Player</h2>
+ -->
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<div class="card shadow">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${video.title}"></h5>
+							<p class="card-text" th:text="${video.description}"></p>
+							<div class="ratio ratio-16x9">
+								<video id="videoPlayer" class="w-100 rounded" controls
+									controlsList="nodownload" disablePictureInPicture
+									oncontextmenu="return false;">
+									<source
+										th:src="@{/user/stream/range/{videoId}(videoId=${video.videoId})}"
+										type="video/mp4">
+								</video>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-2 mb-2">
+
+			<div class="card card-sh">
+				<div class="card-header text-center">
+					<p class="fs-4">Pending Payments</p>
+					<th:block th:if="${session.succMsg}">
+						<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+
+					<th:block th:if="${session.errorMsg}">
+						<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+				</div>
+				<div class="col-md-6 p-4">
+
+					<form action="/admin/search-transaction" method="get">
+						<div class="row">
+							<div class="col">
+								<input type="text" class="form-control " name="transactionId" 
+									placeholder="Enter Transaction Id">
+							</div>
+							<div class="col">
+								<button class="btn btn-primary col">Search</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Purchased Id</th>
+								<th scope="col">User Name</th>
+								<th scope="col">User Email</th>
+								<th scope="col">Course</th>
+								<th scope="col">Amount</th>
+								<th scope="col">Transaction Id</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:if="${searchPurchase}">
+								<tr >
+								<td>[[${purchase.id}]]</td>
+								<td>[[${purchase.user.name}]]</td>
+								<td>[[${purchase.user.email}]]</td>
+								<td>[[${purchase.course.title}]]</td>
+								<td>[[${purchase.course.discountPrice}]]</td>
+								<td>[[${purchase.transactionId}]]</td>
+								<td>[[${purchase.paymentStatus}]]</td>
+
+								<td>
+								<th:block th:if="${purchase.paymentStatus!='Completed'}">
+										<a th:href="@{/admin/verify_payment(purchaseId=${purchase.id})}"
+											class="btn btn-sm btn-primary">Verify Payment</a>
+									</th:block>
+								<th:block th:unless="${purchase.paymentStatus!='Completed'}">
+										<a th:href="@{/admin/verify_payment(purchaseId=${purchase.id})}"
+											class="btn btn-sm btn-primary disabled">Verify Payment</a>
+									</th:block>
+									
+									<th:block th:if="${purchase.paymentStatus!='Cancelled'}">
+										<a th:href="@{'/admin/cancelPaymentStatus?id='+${purchase.id}+'&st=4'}"
+											class="btn btn-sm btn-primary" >Failed</a>
+									</th:block>
+									
+									<th:block th:unless="${purchase.paymentStatus!='Cancelled'}">
+										<a th:href="@{'/admin/cancelPaymentStatus?id='+${purchase.id}+'&st=4'}"
+											class="btn btn-sm btn-primary disabled" >Failed</a>
+									</th:block>
+									
+									 <!-- <a
+									th:href="@{'/admin/deleteCourse/'+${c.id}}"
+									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
+										Delete</a></td> -->
+							</tr>
+							</th:block>
+							<th:block th:unless="${searchPurchase}">
+								<tr th:each="p:${pendingPurchases}">
+								<td>[[${p.id}]]</td>
+								<td>[[${p.user.name}]]</td>
+								<td>[[${p.user.email}]]</td>
+								<td>[[${p.course.title}]]</td>
+								<td>[[${p.course.discountPrice}]]</td>
+								<td>[[${p.transactionId}]]</td>
+								<td>[[${p.paymentStatus}]]</td>
+
+								<td><th:block th:if="${p.paymentStatus!='Completed'}">
+										<a th:href="@{/admin/verify_payment(purchaseId=${p.id})}"
+											class="btn btn-sm btn-primary">Verify Payment</a>
+									</th:block>
+								<th:block th:unless="${p.paymentStatus!='Completed'}">
+										<a th:href="@{/admin/verify_payment(purchaseId=${p.id})}"
+											class="btn btn-sm btn-primary disabled">Verify Payment</a>
+									</th:block>
+									
+									<th:block th:if="${p.paymentStatus!='Cancelled'}">
+										<a th:href="@{'/admin/cancelPaymentStatus?id='+${p.id}+'&st=4'}"
+											class="btn btn-sm btn-primary" >Failed</a>
+									</th:block>
+									
+									<th:block th:unless="${p.paymentStatus!='Cancelled'}">
+										<a th:href="@{'/admin/cancelPaymentStatus?id='+${p.id}+'&st=4'}"
+											class="btn btn-sm btn-primary disabled" >Failed</a>
+									</th:block>
+									
+									 <!-- <a
+									th:href="@{'/admin/deleteCourse/'+${c.id}}"
+									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
+										Delete</a></td> -->
+							</tr>
+							</th:block>
+							
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

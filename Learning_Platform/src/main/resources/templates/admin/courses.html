@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-5 p-5">
+
+			<div class="card card-sh">
+				<div class="card-header text-center">
+					<p class="fs-4">View Courses</p>
+					<th:block th:if="${session.succMsg}">
+						<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+
+					<th:block th:if="${session.errorMsg}">
+						<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr class="text-center">
+								<th scope="col">Sl No</th>
+								<th scope="col">Image</th>
+								<th scope="col">Title</th>
+								<th scope="col">Category</th>
+								<th scope="col">Price</th>
+								<th scope="col">Discount</th>
+								<th scope="col">Discount Price</th>
+								<th scope="col">Stock</th>
+								<th scope="col">Duration in Months</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c,co:${courses}" class="text-center">
+								<th scope="row">[[${co.count}]]</th>
+								<td><img th:src="@{'/img/course_img/'+${c.image}}"
+									width="70px" height="70px"></td>
+								<td>[[${c.title}]]</td>
+								<td>[[${c.category}]]</td>
+								<td>[[${c.price}]]</td>
+								<td>[[${c.discount}]]</td>
+								<td>[[${c.discountPrice}]]</td>
+								<td>[[${c.stock}]]</td>
+								<td>[[${c.accessDurationInMonths}]]</td>
+								<td>[[${c.isActive}]]</td>
+								<td><a th:href="@{'/admin/loadEditCourse/'+${c.id}}" class="btn btn-sm btn-primary"><i
+										class="fa-solid fa-pen-to-square"></i>Edit</a>
+										
+										 <a
+									th:href="@{'/admin/deleteCourse/'+${c.id}}"
+									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
+										Delete</a></td>
+							</tr>
+
+						</tbody>
+						
+					</table>
+					<!-- Start Pagination -->
+					<div class="row">
+						<div class="col-md-4">Total Courses : [[${totalElements}]]</div>
+						<div class="col-md-6">
+							
+								<nav aria-label="Page navigation example">
+									<ul class="pagination">
+										<li class="page-item"
+											th:classappend="${isFirst} ? 'disabled':''"><a
+											class="page-link"
+											th:href="@{'/admin/courses?pageNo='+${pageNo-1}}"
+											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										</a></li>
+
+										<li th:each="i:${#numbers.sequence(1,totalPages)}"
+											class="page-item"  th:classappend="${pageNo+1==i}?'active':''"
+											><a class="page-link"
+											th:href="@{'/admin/courses?pageNo='+${i-1}}">[[${i}]]</a></li>
+
+										<li class="page-item"
+											th:classappend="${isLast} ? 'disabled':''"><a
+											class="page-link"
+											th:href="@{'/admin/courses?pageNo='+${pageNo+1}}"
+											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+										</a></li>
+									</ul>
+								</nav>
+					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

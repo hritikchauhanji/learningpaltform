@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container card-sh"
+			style="margin-top: 70px; margin-bottom: 100px">
+
+			<div class="col-md-12 p-5 ">
+				<div class="row">
+					
+						
+					<div class="col-md-6 text-end">
+						<img alt="" th:src="@{'/img/course_img/' + ${course.image} }" width="300px"
+							height="250px">
+					</div>
+
+					<div class="col-md-6">
+					<input type="hidden" name="id" th:value="${course.id}">
+
+						<p class="fs-3">[[${course.title}]]</p>
+						<p>
+							<span class="fw-bold">Description : </span><br>[[${course.description}]]
+						</p>
+						<p>
+							<span class="fw-bold"> Course Details: </span> <br> Status
+							:
+							
+								<span class="badge bg-success" th:if="${course.stock>0}">Available</span>
+								<span class="badge bg-warning" th:unless="${course.stock>0}">Not Available</span>
+
+							
+
+
+							<br> Category: [[${course.category}]]
+							<br> Validity: [[${course.accessDurationInMonths}]] Months
+						</p>
+						<p class="fs-5 fw-bold">
+							Price : <i class="fas fa-rupee-sign"></i> [[${course.discountPrice}]] <span
+								class="fs-6 text-decoration-line-through text-secondary">[[${course.price}]]</span>
+							<span class="fs-6  text-success">[[${course.discount}]] %
+								off</span>
+						</p>
+
+						<div class="row">
+							<div class="col-md-6 text-success text-center p-2">
+								<i class="fas fa-money-bill-wave fa-2x"></i>
+								<p>Pay Online</p>
+							</div>
+							<div class="col-md-4 text-danger text-center p-2">
+								<i class="fa-regular fa-circle-xmark fa-2x" style="color: #e00000;"></i>
+								<p>Non Refundable</p>
+							</div>
+						</div>
+
+								<th:block th:if="${course.stock>0}">
+								<a th:href="@{'/purchase/'+${course.id}}" class="btn text-white btn-danger col-md-12">Buy Now</a>
+								</th:block>
+								
+								<th:block th:unless="${course.stock>0}">
+								<a href="#" class="btn text-white btn-warning col-md-12">Course Not Available</a>
+								</th:block>
+							
+						<!-- 
+							<a href="#" class="btn text-white btn-warning col-md-12">Out
+								of Stock</a>
+					 -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</body>
+</html>
