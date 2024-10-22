@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,13 +37,29 @@ public class SecurityConfig {
     	return new UserDetailServiceImpl();
     }
     
+	/*
+	 * @Bean DaoAuthenticationProvider daoAuthenticationProvider() {
+	 * DaoAuthenticationProvider authenticationProvider = new
+	 * DaoAuthenticationProvider();
+	 * authenticationProvider.setPasswordEncoder(passwordEncoder());
+	 * authenticationProvider.setUserDetailsService(userDetailService()); return
+	 * authenticationProvider; }
+	 */
+    
     @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider() {
-    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    	authenticationProvider.setPasswordEncoder(passwordEncoder());
-    	authenticationProvider.setUserDetailsService(userDetailService());
-    	return authenticationProvider;
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = 
+            http.getSharedObject(AuthenticationManagerBuilder.class);
+        
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder()); // Ensure to set the PasswordEncoder if needed
+
+        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+        
+        return authenticationManagerBuilder.build();
     }
+
     
     @Bean 
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
