@@ -37,28 +37,27 @@ public class SecurityConfig {
     	return new UserDetailServiceImpl();
     }
     
-	/*
-	 * @Bean DaoAuthenticationProvider daoAuthenticationProvider() {
-	 * DaoAuthenticationProvider authenticationProvider = new
-	 * DaoAuthenticationProvider();
-	 * authenticationProvider.setPasswordEncoder(passwordEncoder());
-	 * authenticationProvider.setUserDetailsService(userDetailService()); return
-	 * authenticationProvider; }
-	 */
-    
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = 
-            http.getSharedObject(AuthenticationManagerBuilder.class);
-        
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder()); // Ensure to set the PasswordEncoder if needed
-
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
-        
-        return authenticationManagerBuilder.build();
+    DaoAuthenticationProvider daoAuthenticationProvider() {
+    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+    	authenticationProvider.setPasswordEncoder(passwordEncoder());
+    	authenticationProvider.setUserDetailsService(userDetailService());
+    	return authenticationProvider;
     }
+    
+//    @Bean
+//    AuthenticationManager authManager(HttpSecurity http) throws Exception {
+//        AuthenticationManagerBuilder authenticationManagerBuilder = 
+//            http.getSharedObject(AuthenticationManagerBuilder.class);
+//        
+//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        authenticationProvider.setUserDetailsService(userDetailService());
+//        authenticationProvider.setPasswordEncoder(passwordEncoder()); // Ensure to set the PasswordEncoder if needed
+//
+//        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+//        
+//        return authenticationManagerBuilder.build();
+//    }
 
     
     @Bean 
